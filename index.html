@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Kemiskinan Indonesia · BPS 2007–2025</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- ====== HEADER ====== -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-title">
+        <span class="header-icon">📊</span>
+        <div>
+          <h1>Dashboard Kemiskinan Indonesia</h1>
+          <p>Persentase Penduduk Miskin (P0) per Provinsi — Data Resmi BPS 2007–2025</p>
+        </div>
+      </div>
+      <div class="header-badge">
+        <span>Sumber Resmi</span>
+        <a href="https://www.bps.go.id/id/statistics-table/2/MTkyIzI=/persentase-penduduk-miskin--september-2025.html" target="_blank">BPS RI ↗</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ====== KPI CARDS ====== -->
+    <section class="kpi-section">
+      <div class="kpi-card" id="card-nasional">
+        <div class="kpi-icon">🇮🇩</div>
+        <div class="kpi-label" id="kpi-nasional-label">Rata-rata Nasional</div>
+        <div class="kpi-value" id="kpi-nasional">0%</div>
+        <div class="kpi-sub" id="kpi-nasional-sub">—</div>
+      </div>
+      <div class="kpi-card" id="card-tertinggi">
+        <div class="kpi-icon">🔺</div>
+        <div class="kpi-label">Provinsi Tertinggi</div>
+        <div class="kpi-value" id="kpi-tertinggi">0%</div>
+        <div class="kpi-sub" id="kpi-tertinggi-nama">—</div>
+      </div>
+      <div class="kpi-card" id="card-terendah">
+        <div class="kpi-icon">🔻</div>
+        <div class="kpi-label">Provinsi Terendah</div>
+        <div class="kpi-value" id="kpi-terendah">0%</div>
+        <div class="kpi-sub" id="kpi-terendah-nama">—</div>
+      </div>
+      <div class="kpi-card" id="card-diatas">
+        <div class="kpi-icon">⚠️</div>
+        <div class="kpi-label">Di Atas Nasional</div>
+        <div class="kpi-value" id="kpi-diatas">0</div>
+        <div class="kpi-sub">Provinsi</div>
+      </div>
+    </section>
+
+    <!-- ====== FILTER INTERAKTIF ====== -->
+    <section class="filter-section">
+      <div class="filter-group">
+        <label for="filter-year">📆 Tahun</label>
+        <select id="filter-year"><!-- diisi otomatis dari data --></select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-periode">📅 Periode</label>
+        <select id="filter-periode">
+          <option value="sept">September</option>
+          <option value="maret">Maret</option>
+          <option value="tahunan">Tahunan</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-wilayah">🗺️ Wilayah</label>
+        <select id="filter-wilayah">
+          <option value="total">Kota + Desa</option>
+          <option value="kota">Perkotaan</option>
+          <option value="desa">Perdesaan</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-tampil">🔢 Tampilkan</label>
+        <select id="filter-tampil">
+          <option value="10">Top 10 Tertinggi</option>
+          <option value="38">Semua Provinsi</option>
+          <option value="bottom10">Top 10 Terendah</option>
+        </select>
+      </div>
+      <div class="filter-info" id="filter-info"></div>
+    </section>
+
+    <!-- ====== CHART 1 — TREN NASIONAL 2007–2025 (always all years) ====== -->
+    <section class="chart-section">
+      <div class="chart-header">
+        <h2>📈 Tren Kemiskinan Nasional 2007–2025</h2>
+        <p class="chart-desc">
+          Perjalanan kemiskinan Indonesia selama 18 tahun. Klik legend untuk
+          sembunyikan/tampilkan series. Hover untuk detail tiap tahun.
+        </p>
+      </div>
+      <div class="chart-wrapper large">
+        <canvas id="chartTrend"></canvas>
+      </div>
+    </section>
+
+    <!-- ====== CHART 2 — BAR CHART per provinsi (filtered) ====== -->
+    <section class="chart-section">
+      <div class="chart-header">
+        <h2 id="bar-title">📊 Persentase Kemiskinan per Provinsi</h2>
+        <p class="chart-desc">
+          Bar chart interaktif — warna otomatis menunjukkan provinsi di atas
+          (oranye/merah) atau di bawah (teal) rata-rata nasional.
+        </p>
+      </div>
+      <div class="chart-wrapper large">
+        <canvas id="chartBar"></canvas>
+      </div>
+    </section>
+
+    <!-- ====== CHART 3 & 4 — 2 kolom ====== -->
+    <div class="chart-grid">
+      <section class="chart-section">
+        <div class="chart-header">
+          <h2 id="scatter-title">🔵 Kota vs Desa</h2>
+          <p class="chart-desc">
+            Hubungan kemiskinan perkotaan (sumbu X) dan perdesaan (sumbu Y) tiap provinsi.
+          </p>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="chartScatter"></canvas>
+        </div>
+      </section>
+
+      <section class="chart-section">
+        <div class="chart-header">
+          <h2 id="doughnut-title">🍩 Distribusi Kategori</h2>
+          <p class="chart-desc">
+            Proporsi provinsi berdasarkan kategori tingkat kemiskinan.
+          </p>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="chartDoughnut"></canvas>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <p>
+        📂 <strong>Sumber Data:</strong>
+        Badan Pusat Statistik (BPS) — Persentase Penduduk Miskin (P0) Menurut Provinsi dan Daerah, 2007–2025 ·
+        <a href="https://www.bps.go.id/id/statistics-table/2/MTkyIzI=/persentase-penduduk-miskin--september-2025.html" target="_blank">
+          Akses Data Resmi BPS ↗
+        </a>
+      </p>
+      <p>Dashboard untuk keperluan akademik · CAK4XBB3 Visualisasi Data · Fakultas Informatika, Telkom University</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
