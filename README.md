@@ -64,7 +64,7 @@ Tubes Visdat/
 ---
 
 ## Anggota Kelompok
-Mazmur Bryan Dimu Heo (103012300001)
-Muhammad Alwan Hutama Rabbani (103012300189)
-M Naufal Ramadhan (103012300266)
-Rafif Baltirus Budiman (1301204443)
+- Mazmur Bryan Dimu Heo (103012300001)
+- Muhammad Alwan Hutama Rabbani (103012300189)
+- M Naufal Ramadhan (103012300266)
+- Rafif Baltirus Budiman (1301204443)
