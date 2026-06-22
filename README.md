@@ -64,9 +64,7 @@ Tubes Visdat/
 ---
 
 ## Anggota Kelompok
-
-- [Nama 1] ([NIM])
-- [Nama 2] ([NIM])
-- [Nama 3] ([NIM])
-- [Nama 4] ([NIM])
-- [Nama 5] ([NIM])
+Mazmur Bryan Dimu Heo (103012300001)
+Muhammad Alwan Hutama Rabbani (103012300189)
+M Naufal Ramadhan (103012300266)
+Rafif Baltirus Budiman (1301204443)
